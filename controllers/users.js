@@ -10,10 +10,12 @@ export const getUsers = (req, res) => {
 
 export const createUser = (req, res) => {
     const user = req.body;
+    console.log(user);
 
     users.push({ ...user, id: uuid() });
 
     console.log(`User [${user.username}] added to the database.`);
+    res.send("User Added!");
 };
 
 export const getUser = (req, res) => {
@@ -21,9 +23,9 @@ export const getUser = (req, res) => {
 };
 
 export const deleteUser = (req, res) => {
-    console.log(`user with id ${req.params.id} has been deleted`);
 
     users = users.filter((user) => user.id !== req.params.id);
+    res.send(`user with id ${req.params.id} has been deleted`);
 };
 
 export const updateUser = (req, res) => {
