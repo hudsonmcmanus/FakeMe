@@ -1,7 +1,6 @@
 const router = require('express').Router();
+const { getFace } = require('../controllers/face');
 
-router.get('/', (req, res) => {
-    res.send(req.user);
-})
+router.get('/', getFace);
 
 module.exports = router;
