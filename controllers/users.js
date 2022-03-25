@@ -34,5 +34,5 @@ export const updateUser = (req, res) => {
     user.username = req.body.username;
     user.age = req.body.age;
 
-    console.log(`username has been updated to ${req.body.username}.age has been updated to ${req.body.age}`)
+    console.log(`username has been updated to ${req.body.username}. Age has been updated to ${req.body.age}`)
 };
