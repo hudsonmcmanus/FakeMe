@@ -1,6 +1,8 @@
 const express = require('express');
 const usersRoutes = require('./routes/users');
 const authRoutes = require('./routes/auth');
+const faceRoutes = require('./routes/face');
+const idRoutes = require('./routes/id');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 
@@ -21,10 +23,11 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/users", usersRoutes);
 app.use("/auth", authRoutes);
-// "/faces"
+app.use('/face', faceRoutes);
+app.use('/id', idRoutes);
 // "/data"
-// "/id"
 app.get("/", (req, res) => res.send("Welcome to the FakeMe API!"));
 app.all("*", (req, res) => res.send("You've tried reaching a route that doesn't exist."));
+
 
 app.listen(PORT, () => console.log(`Server running on port: http://localhost:${PORT}`));
