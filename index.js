@@ -1,24 +1,30 @@
-import express from "express";
+const express = require('express');
+const usersRoutes = require('./routes/users');
+const authRoutes = require('./routes/auth');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-
-import usersRoutes from "./routes/users.js";
-const faceRoutes = require('./routes/face');
-const identityRoutes = require('./routes/identity');
-dotenv.config();
 
 const app = express();
 const PORT = 5000;
 
-mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }, () => 
-    console.log('Connected to db')
+dotenv.config();
+
+// Connect to DB
+mongoose.connect(
+    process.env.DB_CONNECT,
+    { useNewUrlParser: true },
+    () => console.log('connected to db!')
 );
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/users", usersRoutes);
-app.get("/", (req, res) => res.send("Welcome to the Users API!"));
+app.use("/auth", authRoutes);
+// "/faces"
+// "/data"
+// "/id"
+app.get("/", (req, res) => res.send("Welcome to the FakeMe API!"));
 app.all("*", (req, res) => res.send("You've tried reaching a route that doesn't exist."));
 app.use('/face', faceRoutes);
 app.use('/identity', identityRoutes);
