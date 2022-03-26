@@ -16,6 +16,12 @@ const getFace = async (req, res) => {
     if (req.body.hair_length) extReq.hair_length = req.body.hair_length;
 
     // TODO: Send extReq to API call and get response back
+    // const query_string = Object.keys(extReq)
+    //      .map(key => `${key}=${extReq[key]}`)
+    //      .join('&');
+    // Create XMLHttpRequest and await response
+    // `https://api.generated.photos/api/v1/faces?api_key=PGw_k_9MKATOvgM_QrFazA&${query_string}`
+    // Return response to main page
 
     res.send(req.body);
 }

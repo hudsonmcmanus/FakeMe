@@ -21,13 +21,13 @@ const loginValidation = data => {
 
 const faceRequestValidation = data => {
     const schema = Joi.object({
-        emotion: Joi.string(),
+        emotion: Joi.string().valid('joy', 'neutral', 'surprise'),
         sex: Joi.string(),
-        age: Joi.string(),
-        ethnicity: Joi.string(),
-        eye_color: Joi.string(),
-        hair_color: Joi.string(),
-        hair_length: Joi.string()
+        age: Joi.string().valid('infant', 'child', 'young-adult', 'adult', 'elderly'),
+        ethnicity: Joi.string().valid('white', 'asian', 'latino', 'black'),
+        eye_color: Joi.string().valid('brown', 'blue', 'gray', 'green'),
+        hair_color: Joi.string().valid('brown', 'blond', 'black', 'gray', 'red'),
+        hair_length: Joi.string().valid('short', 'medium', 'long')
     });
     return schema.validate(data);
 };
@@ -35,10 +35,16 @@ const faceRequestValidation = data => {
 const idRequestValidation = data => {
     const schema = Joi.object({
         sex: Joi.string(),
-        country: Joi.string(),
-        eye_color: Joi.string(),
-        hair_color: Joi.string(),
-        ethnicity: Joi.string(),
+        age: Joi.number().integer().greater(0).max(150).positive(),
+        country: Joi.string().valid("australia", "austria", "belgium", "brazil", "canada",
+        "cyprus", "czech_republic", "denmark", "estonia", "finland",
+        "france", "germany", "greenland", "hungary", "iceland",
+        "italy", "netherlands", "new_zealand", "norway", "poland",
+        "portugal", "slovenia", "south_africa", "spain", "sweden",
+        "switzerland", "tunisia", "united_kingdom", "united_states", "uruguay"),
+        eye_color: Joi.string().valid('brown', 'blue', 'gray', 'green'),
+        hair_color: Joi.string().valid('brown', 'blond', 'black', 'gray', 'red'),
+        ethnicity: Joi.string().valid('white', 'asian', 'latino', 'black')
     });
     return schema.validate(data);
 };

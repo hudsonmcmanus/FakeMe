@@ -14,6 +14,12 @@ const getId = async (req, res) => {
     if (req.body.ethnicity) extReq.ethnicity = req.body.ethnicity;
 
     // TODO: Send extReq to API call and get response back
+    // const queries = Object.keys(extReq)
+    //      .map(key => `${extReq[key]}`)
+    //      .join('/');
+    // Create XMLHttpRequest and await response
+    // `https://api.name-fake.com/{queries}`
+    // Return response to main page
 
     res.send(req.body);
 }
