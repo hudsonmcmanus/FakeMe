@@ -15,7 +15,7 @@ const getFace = async (req, res) => {
         url: 'https://api.generated.photos/api/v1/faces',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'API-Key rgVOueunVoEVJZR8A3qskQ'
+            'Authorization': `API-Key ${process.env.FACE_API}`
         },
         data: req.body
     })
