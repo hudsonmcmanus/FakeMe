@@ -5,7 +5,7 @@ const faceRoutes = require('./routes/face');
 const idRoutes = require('./routes/id');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-
+const verify = require('./routes/verifyToken')
 const app = express();
 const PORT = 5000;
 
@@ -23,8 +23,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/users", usersRoutes);
 app.use("/auth", authRoutes);
-app.use('/face', faceRoutes);
-app.use('/id', idRoutes);
+app.use('/face', verify, faceRoutes);
+app.use('/id', verify, idRoutes);
 // "/data"
 app.get("/", (req, res) => res.send("Welcome to the FakeMe API!"));
 app.all("*", (req, res) => res.send("You've tried reaching a route that doesn't exist."));
