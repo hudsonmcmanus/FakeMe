@@ -1,23 +1,36 @@
 const { faceRequestValidation } = require('../validation.js');
+const axios = require('axios')
 
 // TODO: Verify token
 const getFace = async (req, res) => {
     // VALIDATE DATA
     const { error } = faceRequestValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
+    req.body.per_page = 1;
+    console.log(req.body);
 
-    extReq = {};
-    if (req.body.emotion) extReq.emotion = req.body.emotion;
-    if (req.body.sex) extReq.sex = req.body.sex;
-    if (req.body.age) extReq.age = req.body.age;
-    if (req.body.ethnicity) extReq.ethnicity = req.body.ethnicity;
-    if (req.body.eye_color) extReq.eye_color = req.body.eye_color;
-    if (req.body.hair_color) extReq.hair_color = req.body.hair_color;
-    if (req.body.hair_length) extReq.hair_length = req.body.hair_length;
 
-    // TODO: Send extReq to API call and get response back
-
-    res.send(req.body);
+    axios({
+        method: 'get',
+        url: 'https://api.generated.photos/api/v1/faces',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'API-Key rgVOueunVoEVJZR8A3qskQ'
+        },
+        data: req.body
+    })
+        .then(faceRes => {
+            console.log(`statusCode: ${faceRes.status}`)
+            const data = {
+                "Faces": faceRes.data.faces[0].urls,
+                "MetaData": faceRes.data.faces[0].meta
+            }
+            res.send(data);
+        })
+        .catch(error => {
+            console.error(error)
+            res.send(error);
+        })
 }
 
 module.exports.getFace = getFace;
