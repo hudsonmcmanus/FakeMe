@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const IdRequest = new mongoose.Schema({
     sex: {
         type: String,
+        enum : ['male', 'female']
     },
     age: {
         type: Number,
@@ -12,12 +13,9 @@ const IdRequest = new mongoose.Schema({
     country: {
         type: String,
         enum : [
-            "australia", "austria", "belgium", "brazil", "canada",
-            "cyprus", "czech_republic", "denmark", "estonia", "finland",
-            "france", "germany", "greenland", "hungary", "iceland",
-            "italy", "netherlands", "new_zealand", "norway", "poland",
-            "portugal", "slovenia", "south_africa", "spain", "sweden",
-            "switzerland", "tunisia", "united_kingdom", "united_states", "uruguay"]
+            "usa", "canada", "russia", "ukraine", 
+            "poland", "netherlands", "sweden", "china"
+        ]
     },
     eye_color: {
         type: String,
