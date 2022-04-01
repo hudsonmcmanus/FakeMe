@@ -1,7 +1,13 @@
 const UserCollection = require('../model/User');
+const RequestCount = require('../model/RequestCount');
 const { registerValidation, loginValidation } = require('../validation.js');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+
+// Will return the Request count from RequestCount collection for the corresponding request.
+const getRequestCount = async (request) => {
+    return await RequestCount.findOne({ request: request });
+}
 
 const loginUser = async (req, res) => {
     // VALIDATE DATA
@@ -16,8 +22,28 @@ const loginUser = async (req, res) => {
     const validPass = await bcrypt.compare(req.body.password, user.password);
     if (!validPass) return res.status(400).send('Password is not correct');
 
-    // CREATE JWT TOKEN AND ASSIGN
+    // CREATE JWT TOKEN
     const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
+
+    // UPDATE REQUEST COUNT
+    const requestCount = await RequestCount.findOne({ request: "login" });
+
+    if (!requestCount) {
+        requestCount = new RequestCount({
+            request: "login",
+            count: 0,
+        });
+    } else {
+        requestCount.count++;
+    }
+
+    try {
+        await requestCount.save();
+
+    } catch (err) {
+        console.log(err);
+    }
+
     res.header('auth-token', token).send(token);
 }
 
