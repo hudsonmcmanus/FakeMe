@@ -6,7 +6,24 @@ const jwt = require('jsonwebtoken');
 
 // Will return the Request count from RequestCount collection for the corresponding request.
 const getRequestCount = async (request) => {
-    return await RequestCount.findOne({ request: request });
+    const requestCount = await RequestCount.findOne({ request: request });
+
+    if (!requestCount) {
+        requestCount = new RequestCount({
+            request: request,
+            count: 0,
+        });
+    } else {
+        requestCount.count++;
+    }
+
+    try {
+        await requestCount.save();
+
+    } catch (err) {
+        console.log(err);
+    }
+
 }
 
 const loginUser = async (req, res) => {
@@ -26,23 +43,7 @@ const loginUser = async (req, res) => {
     const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
 
     // UPDATE REQUEST COUNT
-    const requestCount = await RequestCount.findOne({ request: "login" });
-
-    if (!requestCount) {
-        requestCount = new RequestCount({
-            request: "login",
-            count: 0,
-        });
-    } else {
-        requestCount.count++;
-    }
-
-    try {
-        await requestCount.save();
-
-    } catch (err) {
-        console.log(err);
-    }
+    getRequestCount("login");
 
     res.header('auth-token', token).send(token);
 }
