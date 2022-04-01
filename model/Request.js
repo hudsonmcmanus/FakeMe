@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const RequestCount = new mongoose.Schema({
+const RequestCollection = new mongoose.Schema({
     request: {
         type: String,
         required: true
@@ -11,4 +11,4 @@ const RequestCount = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('RequestCount', RequestCount);
+module.exports = mongoose.model('RequestCollection', RequestCollection);

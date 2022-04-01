@@ -1,5 +1,6 @@
 const { faceRequestValidation } = require('../validation.js');
 const axios = require('axios')
+const getRequestCount = require('./getRequestCount');
 
 // TODO: Verify token
 const getFace = async (req, res) => {
@@ -20,7 +21,8 @@ const getFace = async (req, res) => {
         data: req.body
     })
         .then(faceRes => {
-            console.log(`statusCode: ${faceRes.status}`)
+            console.log(`statusCode: ${faceRes.status}`);
+            getRequestCount("getFace");
             const data = {
                 "Faces": faceRes.data.faces[0].urls,
                 "MetaData": faceRes.data.faces[0].meta

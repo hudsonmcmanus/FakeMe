@@ -1,30 +1,10 @@
 const UserCollection = require('../model/User');
-const RequestCount = require('../model/RequestCount');
+const getRequestCount = require('./getRequestCount');
 const { registerValidation, loginValidation } = require('../validation.js');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// Will return the Request count from RequestCount collection for the corresponding request.
-const getRequestCount = async (request) => {
-    const requestCount = await RequestCount.findOne({ request: request });
 
-    if (!requestCount) {
-        requestCount = new RequestCount({
-            request: request,
-            count: 0,
-        });
-    } else {
-        requestCount.count++;
-    }
-
-    try {
-        await requestCount.save();
-
-    } catch (err) {
-        console.log(err);
-    }
-
-}
 
 const loginUser = async (req, res) => {
     // VALIDATE DATA
@@ -74,6 +54,9 @@ const createUser = async (req, res) => {
     } catch (err) {
         res.status(400).send(err);
     }
+
+    // UPDATE REQUEST COUNT
+    getRequestCount("register");
 
     console.log(`User [${user.email}] added to the database.`);
 };

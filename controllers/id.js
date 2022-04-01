@@ -1,5 +1,6 @@
 const { idRequestValidation } = require('../validation.js');
 const axios = require('axios');
+const getRequestCount = require('./getRequestCount');
 
 // TODO: Verify token
 const getId = async (req, res) => {
@@ -20,6 +21,7 @@ const getId = async (req, res) => {
     })
         .then(idRes => {
             console.log(idRes.data);
+            getRequestCount("getId");
             res.send(idRes.data);
         })
         .catch(error => {
