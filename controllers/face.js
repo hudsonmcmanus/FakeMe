@@ -22,7 +22,7 @@ const getFace = async (req, res) => {
     })
         .then(faceRes => {
             console.log(`statusCode: ${faceRes.status}`);
-            getRequestCount("getFace");
+            getRequestCount("face");
             const data = {
                 "Faces": faceRes.data.faces[0].urls,
                 "MetaData": faceRes.data.faces[0].meta
