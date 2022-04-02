@@ -1,4 +1,6 @@
-const { IdRequestValidation } = require('../validation.js');
+const { idRequestValidation } = require('../validation.js');
+const axios = require('axios');
+const getRequestCount = require('./getRequestCount');
 
 // TODO: Verify token
 const getId = async (req, res) => {
@@ -15,25 +17,29 @@ const getId = async (req, res) => {
     }
 
     // VALIDATE DATA
-    const { error } = IdRequestValidation(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    // const { error } = idRequestValidation(req.body);
+    // if (error) return res.status(400).send(error.details[0].message);
 
-    extReq = {};
-    if (req.body.sex) extReq.sex = req.body.sex;
-    if (req.body.country) extReq.country = country_match[req.body.country];
-    if (req.body.eye_color) extReq.eye_color = req.body.eye_color;
-    if (req.body.hair_color) extReq.hair_color = req.body.hair_color;
-    if (req.body.ethnicity) extReq.ethnicity = req.body.ethnicity;
+    req.body.country = !req.body.country ? 'english-united-states' : req.body.country;
+    req.body.gender = !req.body.gender ? 'male' : req.body.gender;
 
-    // TODO: Send extReq to API call and get response back
-    // const queries = Object.keys(extReq)
-    //      .map(key => `${extReq[key]}`)
-    //      .join('/');
-    // Create XMLHttpRequest and await response
-    // `https://api.name-fake.com/{queries}`
-    // Return response to main page
+    console.log(req.body.country);
 
-    res.send(req.body);
+    const url = `https://api.namefake.com/${req.body.country}/${req.body.gender}`
+    axios({
+        method: 'get',
+        url: url,
+        data: req.body,
+    })
+        .then(idRes => {
+            console.log(idRes.data);
+            getRequestCount("getId");
+            res.send(idRes.data);
+        })
+        .catch(error => {
+            console.error(error)
+            res.send(error);
+        })
 }
 
 module.exports.getId = getId;

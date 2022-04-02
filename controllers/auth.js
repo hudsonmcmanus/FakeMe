@@ -1,7 +1,10 @@
 const UserCollection = require('../model/User');
+const getRequestCount = require('./getRequestCount');
 const { registerValidation, loginValidation } = require('../validation.js');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+
+
 
 const loginUser = async (req, res) => {
     // VALIDATE DATA
@@ -16,8 +19,12 @@ const loginUser = async (req, res) => {
     const validPass = await bcrypt.compare(req.body.password, user.password);
     if (!validPass) return res.status(400).send('Password is not correct');
 
-    // CREATE JWT TOKEN AND ASSIGN
+    // CREATE JWT TOKEN
     const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
+
+    // UPDATE REQUEST COUNT
+    getRequestCount("login");
+
     res.header('auth-token', token).send(token);
 }
 
@@ -47,6 +54,9 @@ const createUser = async (req, res) => {
     } catch (err) {
         res.status(400).send(err);
     }
+
+    // UPDATE REQUEST COUNT
+    getRequestCount("register");
 
     console.log(`User [${user.email}] added to the database.`);
 };
