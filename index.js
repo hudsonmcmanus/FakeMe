@@ -23,13 +23,21 @@ mongoose.connect(
     () => console.log('connected to db!')
 );
 
+app.use(function (req, res, next) {
+    // TODO: Replace link
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5000');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+    next();
+});
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/users", usersRoutes);
 app.use("/auth", authRoutes);
-app.use('/face', verify, faceRoutes);
-app.use('/id', verify, idRoutes);
+app.use('/face', faceRoutes);
+app.use('/id', idRoutes);
 app.use('/reqs', reqRoutes);
 // "/data"
 app.get("/", (req, res) => res.send("Welcome to the FakeMe API!"));
