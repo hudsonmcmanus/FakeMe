@@ -4,18 +4,6 @@ const getRequestCount = require('./getRequestCount');
 
 // TODO: Verify token
 const getId = async (req, res) => {
-
-    country_match = {
-        'usa' : 'english-united-states',
-        'canada' : 'english-canada',
-        'russia' : 'russian-russia',
-        'ukraine' : 'ukranian-ukraine',
-        'poland' : 'polish-poland',
-        'netherlands' : 'dutch-netherlands',
-        'sweden' : 'swedish-sweden',
-        'china' : 'chinese'
-    }
-
     // VALIDATE DATA
     // const { error } = idRequestValidation(req.body);
     // if (error) return res.status(400).send(error.details[0].message);
@@ -33,7 +21,7 @@ const getId = async (req, res) => {
     })
         .then(idRes => {
             console.log(idRes.data);
-            getRequestCount("getId");
+            getRequestCount("id");
             res.send(idRes.data);
         })
         .catch(error => {

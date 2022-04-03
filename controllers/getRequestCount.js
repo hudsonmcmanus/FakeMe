@@ -10,7 +10,7 @@ const incRequestCount = async (request) => {
     }
     let requestCount = await RequestCollection.findOne({ request: request });
 
-    if (!requestCount) {
+        if (!requestCount) {
         requestCount = new RequestCollection({
             request_type: req_map[request],
             request: request,

@@ -28,8 +28,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/users", usersRoutes);
 app.use("/auth", authRoutes);
-app.use('/face', verify, faceRoutes);
-app.use('/id', verify, idRoutes);
+app.use('/face', faceRoutes);
+app.use('/id', idRoutes);
 app.use('/reqs', reqRoutes);
 // "/data"
 app.get("/", (req, res) => res.send("Welcome to the FakeMe API!"));
