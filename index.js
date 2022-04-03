@@ -23,6 +23,14 @@ mongoose.connect(
     () => console.log('connected to db!')
 );
 
+app.use(function (req, res, next) {
+    // TODO: Replace link
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5000');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+    next();
+});
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
