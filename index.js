@@ -8,10 +8,11 @@ const idRoutes = require('./routes/id');
 const reqRoutes = require('./routes/reqs');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-const verify = require('./routes/verifyToken')
+const verify = require('./routes/verifyToken');
 const app = express();
 const PORT = 5000;
 
+// TODO: remove CORS
 app.use(cors());
 
 dotenv.config();
@@ -25,7 +26,7 @@ mongoose.connect(
 
 app.use(function (req, res, next) {
     // TODO: Replace link
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5000');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', '*');
     next();
@@ -34,11 +35,11 @@ app.use(function (req, res, next) {
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/users", usersRoutes);
-app.use("/auth", authRoutes);
-app.use('/face', faceRoutes);
-app.use('/id', idRoutes);
-app.use('/reqs', reqRoutes);
+app.use("/API/v1/users", usersRoutes);
+app.use("/API/v1/auth", authRoutes);
+app.use('/API/v1/face', faceRoutes);
+app.use('/API/v1/id', idRoutes);
+app.use('/API/v1/reqs', reqRoutes);
 // "/data"
 app.get("/", (req, res) => res.send("Welcome to the FakeMe API!"));
 app.all("*", (req, res) => res.send("You've tried reaching a route that doesn't exist."));
