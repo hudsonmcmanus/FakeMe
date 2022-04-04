@@ -7,8 +7,8 @@ const jwt = require('jsonwebtoken');
 // TODO: Verify token
 const getId = async (req, res) => {
     // VALIDATE DATA
-    // const { error } = idRequestValidation(req.body);
-    // if (error) return res.status(400).send(error.details[0].message);
+    const { error } = idRequestValidation(req.query);
+    if (error) return res.status(400).send(error.details[0].message);
     const token = req.header('auth-token');
 
     country_match = {
@@ -30,7 +30,7 @@ const getId = async (req, res) => {
     axios({
         method: 'get',
         url: url,
-        data: req.body,
+        data: req.query,
     })
         .then(idRes => {
             idRes.data.hair = (req.query.hair ? req.query.hair : idRes.data.hair);

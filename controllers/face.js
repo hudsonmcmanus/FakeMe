@@ -4,27 +4,34 @@ const getRequestCount = require('./getRequestCount');
 const FaceCollection = require('../model/Faces');
 const jwt = require('jsonwebtoken');
 
+function serialize(obj) {
+    var str = [];
+    for (var p in obj)
+        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+    return str.join("&");
+}
+
 // TODO: Verify token
 const getFace = async (req, res) => {
     // VALIDATE DATA
     const token = req.header('auth-token');
-    const { error } = faceRequestValidation(req.body);
+    const { error } = faceRequestValidation(req.query);
     if (error) return res.status(400).send(error.details[0].message);
-    req.body.per_page = 1;
-    console.log(req.body);
+    req.query.per_page = 1;
 
+    let params = serialize(req.query)
+    console.log(params);
 
     axios({
         method: 'get',
-        url: 'https://api.generated.photos/api/v1/faces',
+        url: 'https://api.generated.photos/api/v1/faces/?' + params,
         headers: {
-            'Content-Type': 'application/json',
             'Authorization': `API-Key ${process.env.FACE_API}`
         },
-        data: req.body
+        data: {}
     })
         .then(faceRes => {
-            console.log(`statusCode: ${faceRes.status}`);
+            console.log(faceRes.data);
             getRequestCount("face");
             const data = {
                 "Faces": faceRes.data.faces[0].urls,

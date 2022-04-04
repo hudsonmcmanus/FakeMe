@@ -48,7 +48,7 @@ const faceRequestValidation = data => {
         age: Joi.string().valid('infant', 'child', 'young-adult', 'adult', 'elderly'),
         ethnicity: Joi.string().valid('white', 'asian', 'latino', 'black'),
         eye_color: Joi.string().valid('brown', 'blue', 'gray', 'green'),
-        hair_color: Joi.string().valid('brown', 'blond', 'black', 'gray', 'red'),
+        hair_color: Joi.string().valid('brown', 'blond', 'black'),
         hair_length: Joi.string().valid('short', 'medium', 'long')
     });
     return schema.validate(data);
@@ -58,7 +58,6 @@ const idRequestValidation = data => {
     const schema = Joi.object({
         hasFace: Joi.boolean(),
         sex: Joi.string().valid("male", "female"),
-        age: Joi.number().integer().greater(0).max(150).positive(),
         country: Joi.string().valid("usa", "canada", "russia", "ukraine",
             "poland", "netherlands", "sweden", "china"),
         eye_color: Joi.string().valid('brown', 'blue', 'gray', 'green'),
