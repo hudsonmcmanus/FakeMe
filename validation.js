@@ -62,8 +62,7 @@ const idRequestValidation = data => {
         country: Joi.string().valid("usa", "canada", "russia", "ukraine",
             "poland", "netherlands", "sweden", "china"),
         eye_color: Joi.string().valid('brown', 'blue', 'gray', 'green'),
-        hair_color: Joi.string().valid('brown', 'blond', 'black', 'gray', 'red'),
-        ethnicity: Joi.string().valid('white', 'asian', 'latino', 'black')
+        hair_color: Joi.string().valid('brown', 'blond', 'black', 'gray', 'red')
     });
     return schema.validate(data);
 };

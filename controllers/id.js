@@ -11,21 +11,31 @@ const getId = async (req, res) => {
     // if (error) return res.status(400).send(error.details[0].message);
     const token = req.header('auth-token');
 
-    req.body.country = !req.body.country ? 'english-united-states' : req.body.country;
-    req.body.gender = !req.body.gender ? 'male' : req.body.gender;
+    country_match = {
+        'usa': 'english-united-states',
+        'canada': 'english-canada',
+        'russia': 'russian-russia',
+        'ukraine': 'ukranian-ukraine',
+        'poland': 'polish-poland',
+        'netherlands': 'dutch-netherlands',
+        'sweden': 'swedish-sweden',
+        'china': 'chinese-china'
+    }
+    let country = country_match[req.query.country];
+    let gender = req.query.gender;
 
-    console.log(req.body.country);
+    console.log(req.query);
 
-    const url = `https://api.namefake.com/${req.body.country}/${req.body.gender}`
+    const url = `https://api.namefake.com/${country}/${gender}`
     axios({
         method: 'get',
         url: url,
         data: req.body,
     })
         .then(idRes => {
-            console.log(idRes.data);
+            idRes.data.hair = (req.query.hair ? req.query.hair : idRes.data.hair);
+            idRes.data.eye = (req.query.eye ? req.query.eye : idResdata.eye);
             getRequestCount("id");
-            console.log(token);
             new_id = new IdCollection({
                 owner_token: token,
                 id: idRes.data
@@ -35,9 +45,7 @@ const getId = async (req, res) => {
                     console.log(err);
                     res.status(400).send(err);
                 }
-                else {
-                    console.log(res);
-                }
+
             })
             res.send(idRes.data);
         })
