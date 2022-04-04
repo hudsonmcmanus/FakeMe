@@ -30,19 +30,20 @@ const getId = async (req, res) => {
                 owner_token: token,
                 id: idRes.data
             });
-            new_id.save(function(err, res){
+            new_id.save(function (err, res) {
                 if (err) {
                     console.log(err);
+                    res.status(400).send(err);
                 }
-                else{
-                    console.log(res)
+                else {
+                    console.log(res);
                 }
             })
             res.send(idRes.data);
         })
         .catch(error => {
             console.error(error)
-            res.send(error);
+            res.status(400).send(err);
         })
 }
 

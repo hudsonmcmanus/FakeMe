@@ -34,11 +34,12 @@ const getFace = async (req, res) => {
                 owner_token: token,
                 faces: faceRes.data.faces[0].urls
             });
-            new_face.save(function(err, res){
+            new_face.save(function (err, res) {
                 if (err) {
+                    res.status(400).send(err)
                     console.log(err);
                 }
-                else{
+                else {
                     console.log(res)
                 }
             })
@@ -58,7 +59,7 @@ const getFaces = async (req, res) => {
         res.send(faces);
     } catch (error) {
         console.error(error)
-        res.send(error);
+        res.status(400).send(error)
     }
 }
 
