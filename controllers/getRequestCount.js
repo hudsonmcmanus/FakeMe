@@ -7,7 +7,8 @@ const incRequestCount = async (request) => {
         "id": "GET",
         "login": "POST",
         "register": "POST",
-        "update": "PATCH"
+        "update": "PATCH",
+        "delete": "DELETE"
     }
     let requestCount = await RequestCollection.findOne({ request: request });
 

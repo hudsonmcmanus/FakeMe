@@ -31,6 +31,15 @@ const updateValidation = data => {
     return schema.validate(data);
 };
 
+const deleteValidation = data => {
+    const schema = Joi.object({
+        email: Joi.string().min(6).required().email(),
+        password: Joi.string().min(6).required(),
+    });
+
+    return schema.validate(data);
+};
+
 //
 const faceRequestValidation = data => {
     const schema = Joi.object({
@@ -64,3 +73,4 @@ module.exports.loginValidation = loginValidation;
 module.exports.faceRequestValidation = faceRequestValidation;
 module.exports.idRequestValidation = idRequestValidation;
 module.exports.updateValidation = updateValidation;
+module.exports.deleteValidation = deleteValidation;

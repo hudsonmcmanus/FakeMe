@@ -1,6 +1,6 @@
 const UserCollection = require('../model/User');
 const getRequestCount = require('./getRequestCount');
-const { registerValidation, loginValidation, updateValidation } = require('../validation.js');
+const { registerValidation, loginValidation, updateValidation, deleteValidation } = require('../validation.js');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -25,11 +25,36 @@ const loginUser = async (req, res) => {
     res.header('auth-token', user.token).send(user.token);
 }
 
+const deleteUser = async (req, res) => {
+    const { error } = deleteValidation(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    // CHECK IF USER EXISTS
+    const user = await UserCollection.findOne({ email: req.body.email });
+    if (!user) return res.status(400).send('Email does not exist');
+
+    // CHECK PASSWORD
+    const validPass = await bcrypt.compare(req.body.password, user.password);
+    if (!validPass) return res.status(400).send('Password is not correct');
+
+    try {
+        await UserCollection.deleteOne(
+            { _id: user._id }
+        );
+        getRequestCount('delete');
+        res.send("User Deleted!");
+    } catch (err) {
+        console.log(err);
+        res.status(400).send(err);
+    }
+
+}
+
 const updateUser = async (req, res) => {
     const { error } = updateValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    // CHECK IF USER EXISTS ALREADY
+    // CHECK IF USER EXISTS
     const user = await UserCollection.findOne({ email: req.body.email });
     if (!user) return res.status(400).send('Email does not exist');
 
@@ -96,3 +121,4 @@ const createUser = async (req, res) => {
 module.exports.createUser = createUser;
 module.exports.loginUser = loginUser;
 module.exports.updateUser = updateUser;
+module.exports.deleteUser = deleteUser;
