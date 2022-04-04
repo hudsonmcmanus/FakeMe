@@ -6,11 +6,12 @@ const incRequestCount = async (request) => {
         "face": "GET",
         "id": "GET",
         "login": "POST",
-        "register": "POST"
+        "register": "POST",
+        "update": "PATCH"
     }
     let requestCount = await RequestCollection.findOne({ request: request });
 
-        if (!requestCount) {
+    if (!requestCount) {
         requestCount = new RequestCollection({
             request_type: req_map[request],
             request: request,

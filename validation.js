@@ -19,6 +19,18 @@ const loginValidation = data => {
     return schema.validate(data);
 };
 
+const updateValidation = data => {
+    const schema = Joi.object({
+        email: Joi.string().min(6).required().email(),
+        password: Joi.string().min(6).required(),
+        newEmail: Joi.string().min(6).email(),
+        newName: Joi.string().min(6),
+        newPassword: Joi.string().min(6)
+    });
+
+    return schema.validate(data);
+};
+
 //
 const faceRequestValidation = data => {
     const schema = Joi.object({
@@ -38,8 +50,8 @@ const idRequestValidation = data => {
         hasFace: Joi.boolean(),
         sex: Joi.string().valid("male", "female"),
         age: Joi.number().integer().greater(0).max(150).positive(),
-        country: Joi.string().valid("usa", "canada", "russia", "ukraine", 
-        "poland", "netherlands", "sweden", "china"),
+        country: Joi.string().valid("usa", "canada", "russia", "ukraine",
+            "poland", "netherlands", "sweden", "china"),
         eye_color: Joi.string().valid('brown', 'blue', 'gray', 'green'),
         hair_color: Joi.string().valid('brown', 'blond', 'black', 'gray', 'red'),
         ethnicity: Joi.string().valid('white', 'asian', 'latino', 'black')
@@ -51,3 +63,4 @@ module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.faceRequestValidation = faceRequestValidation;
 module.exports.idRequestValidation = idRequestValidation;
+module.exports.updateValidation = updateValidation;

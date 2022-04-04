@@ -1,6 +1,6 @@
 const UserCollection = require('../model/User');
 const getRequestCount = require('./getRequestCount');
-const { registerValidation, loginValidation } = require('../validation.js');
+const { registerValidation, loginValidation, updateValidation } = require('../validation.js');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -19,13 +19,43 @@ const loginUser = async (req, res) => {
     const validPass = await bcrypt.compare(req.body.password, user.password);
     if (!validPass) return res.status(400).send('Password is not correct');
 
-    // CREATE JWT TOKEN
-    const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-
     // UPDATE REQUEST COUNT
     getRequestCount("login");
 
-    res.header('auth-token', token).send(token);
+    res.header('auth-token', user.token).send(user.token);
+}
+
+const updateUser = async (req, res) => {
+    const { error } = updateValidation(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    // CHECK IF USER EXISTS ALREADY
+    const user = await UserCollection.findOne({ email: req.body.email });
+    if (!user) return res.status(400).send('Email does not exist');
+
+    // CHECK PASSWORD
+    const validPass = await bcrypt.compare(req.body.password, user.password);
+    if (!validPass) return res.status(400).send('Password is not correct');
+    const salt = await bcrypt.genSalt(10);
+
+    try {
+        const new_user = await UserCollection.updateOne(
+            { _id: user._id },
+            {
+                $set: {
+                    email: (req.body.newEmail ? req.body.newEmail : user.email),
+                    name: (req.body.newName ? req.body.newName : user.name),
+                    password: (req.body.newPassword ? await bcrypt.hash(req.body.newPassword, salt) : user.password)
+                }
+            }
+        );
+        getRequestCount('update');
+        res.send("User Updated!");
+    } catch (err) {
+        console.log(err);
+        res.status(400).send(err);
+    }
+
 }
 
 const createUser = async (req, res) => {
@@ -45,7 +75,8 @@ const createUser = async (req, res) => {
     const user = new UserCollection({
         name: req.body.name,
         email: req.body.email,
-        password: hashPassword
+        password: hashPassword,
+        token: jwt.sign({ _id: req.body.email }, process.env.TOKEN_SECRET)
     });
     try {
         const savedUser = await user.save();
@@ -64,3 +95,4 @@ const createUser = async (req, res) => {
 
 module.exports.createUser = createUser;
 module.exports.loginUser = loginUser;
+module.exports.updateUser = updateUser;
