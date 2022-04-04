@@ -34,7 +34,7 @@ const getId = async (req, res) => {
     })
         .then(idRes => {
             idRes.data.hair = (req.query.hair ? req.query.hair : idRes.data.hair);
-            idRes.data.eye = (req.query.eye ? req.query.eye : idResdata.eye);
+            idRes.data.eye = (req.query.eye ? req.query.eye : idRes.data.eye);
             getRequestCount("id");
             new_id = new IdCollection({
                 owner_token: token,

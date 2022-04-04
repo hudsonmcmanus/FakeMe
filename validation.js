@@ -40,7 +40,6 @@ const deleteValidation = data => {
     return schema.validate(data);
 };
 
-//
 const faceRequestValidation = data => {
     const schema = Joi.object({
         emotion: Joi.string().valid('joy', 'neutral', 'surprise'),
@@ -56,8 +55,7 @@ const faceRequestValidation = data => {
 
 const idRequestValidation = data => {
     const schema = Joi.object({
-        hasFace: Joi.boolean(),
-        sex: Joi.string().valid("male", "female"),
+        gender: Joi.string().valid("male", "female"),
         country: Joi.string().valid("usa", "canada", "russia", "ukraine",
             "poland", "netherlands", "sweden", "china"),
         eye_color: Joi.string().valid('brown', 'blue', 'gray', 'green'),
