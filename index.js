@@ -35,7 +35,6 @@ app.use(function (req, res, next) {
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/API/v1/users", usersRoutes);
 app.use("/API/v1/auth", authRoutes);
 app.use('/API/v1/face', verify, faceRoutes);
 app.use('/API/v1/id', verify, idRoutes);
