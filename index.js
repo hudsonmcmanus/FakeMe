@@ -39,7 +39,7 @@ app.use('/API/v1/face', verify, faceRoutes);
 app.use('/API/v1/id', verify, idRoutes);
 app.use('/API/v1/reqs', reqRoutes);
 // "/data"
-app.get("/", (req, res) => res.send("Welcome to the FakeMe API!"));
+app.get("/API/v1", (req, res) => res.send("Welcome to the FakeMe API!"));
 app.all("*", (req, res) => res.send("You've tried reaching a route that doesn't exist."));
 
 let port = process.env.PORT || 8080;
