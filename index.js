@@ -44,5 +44,5 @@ app.use('/API/v1/reqs', reqRoutes);
 app.get("/", (req, res) => res.send("Welcome to the FakeMe API!"));
 app.all("*", (req, res) => res.send("You've tried reaching a route that doesn't exist."));
 
-var port_number = server.listen(process.env.PORT || 3000);
-app.listen(port_number);
+let port = process.env.PORT || 8080;
+app.listen(port);
