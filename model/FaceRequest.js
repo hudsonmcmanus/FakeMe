@@ -5,7 +5,7 @@ const FaceRequest = new mongoose.Schema({
         type: String,
         enum: ['joy', 'neutral', 'surprise']
     },
-    sex: {
+    gender: {
         type: String,
         enum: ['male', 'female']
     },
