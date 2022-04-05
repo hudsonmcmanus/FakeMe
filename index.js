@@ -26,7 +26,7 @@ mongoose.connect(
 
 app.use(function (req, res, next) {
     // TODO: Replace link
-    res.setHeader('Access-Control-Allow-Origin', 'https://jasonluicodes.com/');
+    res.setHeader('Access-Control-Allow-Origin', 'https://jasonluicodes.com');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', '*');
     next();
