@@ -20,7 +20,7 @@ const loginUser = async (req, res) => {
     if (!validPass) return res.status(400).send('Password is not correct');
 
     // UPDATE REQUEST COUNT
-    getRequestCount("login");
+    getRequestCount("auth/login");
 
     res.header('auth-token', user.token).send(user.token);
 }
@@ -41,7 +41,7 @@ const deleteUser = async (req, res) => {
         await UserCollection.deleteOne(
             { _id: user._id }
         );
-        getRequestCount('delete');
+        getRequestCount('auth/delete');
         res.send("User Deleted!");
     } catch (err) {
         console.log(err);
@@ -74,7 +74,7 @@ const updateUser = async (req, res) => {
                 }
             }
         );
-        getRequestCount('update');
+        getRequestCount('auth/update');
         res.send("User Updated!");
     } catch (err) {
         console.log(err);
@@ -112,7 +112,7 @@ const createUser = async (req, res) => {
     }
 
     // UPDATE REQUEST COUNT
-    getRequestCount("register");
+    getRequestCount("auth/register");
 
     console.log(`User [${user.email}] added to the database.`);
 };

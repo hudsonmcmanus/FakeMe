@@ -60,6 +60,7 @@ const getIds = async (req, res) => {
     const ids = await IdCollection.find({ owner_token: token })
     try {
         console.log(ids);
+        getRequestCount("id/getIds");
         res.send(ids);
     } catch (error) {
         console.error(error)

@@ -63,6 +63,7 @@ const getFaces = async (req, res) => {
     const faces = await FaceCollection.find({ owner_token: token })
     try {
         console.log(faces);
+        getRequestCount("id/getFaces");
         res.send(faces);
     } catch (error) {
         console.error(error)
