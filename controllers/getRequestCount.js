@@ -4,11 +4,13 @@ const RequestCollection = require('../model/Request');
 const incRequestCount = async (request) => {
     let req_map = {
         "face": "GET",
+        "face/getFaces": "GET",
         "id": "GET",
-        "login": "POST",
-        "register": "POST",
-        "update": "PATCH",
-        "delete": "DELETE"
+        "id/getIds": "GET",
+        "auth/login": "POST",
+        "auth/register": "POST",
+        "auth/update": "PATCH",
+        "auth/delete": "DELETE"
     }
     let requestCount = await RequestCollection.findOne({ request: request });
 
