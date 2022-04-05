@@ -55,7 +55,8 @@ const faceRequestValidation = data => {
 
 const idRequestValidation = data => {
     const schema = Joi.object({
-        gender: Joi.string().valid("male", "female"),
+        hasFace: Joi.boolean(),
+        sex: Joi.string().valid("male", "female"),
         country: Joi.string().valid("usa", "canada", "russia", "ukraine",
             "poland", "netherlands", "sweden", "china"),
         eye_color: Joi.string().valid('brown', 'blue', 'gray', 'green'),
