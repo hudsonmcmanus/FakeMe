@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const IdRequest = new mongoose.Schema({
-    hasFace: {
-        type: Boolean,
-        default: false
-    },
     sex: {
         type: String,
         enum: ['male', 'female']
