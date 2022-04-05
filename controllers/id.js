@@ -30,7 +30,7 @@ const getId = async (req, res) => {
     axios({
         method: 'get',
         url: url,
-        data: req.query,
+        data: req.body,
     })
         .then(idRes => {
             idRes.data.hair = (req.query.hair ? req.query.hair : idRes.data.hair);
